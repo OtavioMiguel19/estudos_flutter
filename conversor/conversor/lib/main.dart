@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
-void main() => runApp(Home());
+const requestUrl = "";
+
+void main() async {
+
+  runApp(Home());
+}
+
+Future<Map> getData() async {
+  http.Response response = await http.get(requestUrl);
+  return json.decode(response.body)["results"]["currencies"]["USD"];
+}
 
 class Home extends StatefulWidget {
   @override
@@ -10,6 +23,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Conversor"),
+        centerTitle: true,
+        backgroundColor: Colors.brown,
+      ),
+    );
   }
 }
