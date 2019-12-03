@@ -96,17 +96,19 @@ class _HomeState extends State<Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Icon(
-                      Icons.monetization_on,
-                      size: 150.0,
-                      color: Colors.black,
+                    Padding(
+                      child: Icon(
+                        Icons.monetization_on,
+                        size: 150.0,
+                        color: Colors.black,
+                      ),
+                      padding: EdgeInsets.all(15.0),
                     ),
-                    Divider(),
                     buildTextField(
                         "Reais", "R\$ ", realController, _realChanged),
                     Divider(),
                     buildTextField(
-                        "Dólares", "\$ ", dollarController, _dollarChanged),
+                        "Dolares", "\$ ", dollarController, _dollarChanged),
                     Divider(),
                     buildTextField("Euros", "€ ", euroController, _euroChanged),
                     Padding(
@@ -118,7 +120,8 @@ class _HomeState extends State<Home> {
                     ),
                     FlutterLogo(
                       size: 50.0,
-                    )
+                    ),
+                    Text("otaviomiguel.com", textAlign: TextAlign.center, style: TextStyle(fontSize: 10.0),)
                   ],
                 ),
               );
