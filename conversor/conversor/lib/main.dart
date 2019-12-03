@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'textInput.dart';
 
@@ -67,6 +68,15 @@ class _HomeState extends State<Home> {
     euroController.text = "";
   }
 
+  _launchURL() async {
+    const url = 'https://otaviomiguel.com';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +96,10 @@ class _HomeState extends State<Home> {
             case ConnectionState.none:
             case ConnectionState.waiting:
               return Center(
-                child: CircularProgressIndicator(backgroundColor: Colors.black, valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.black,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
               );
             default:
               dolar = snapshot.data["results"]["currencies"]["USD"]["buy"];
@@ -121,7 +134,14 @@ class _HomeState extends State<Home> {
                     FlutterLogo(
                       size: 50.0,
                     ),
-                    Text("otaviomiguel.com", textAlign: TextAlign.center, style: TextStyle(fontSize: 10.0),)
+                    FlatButton(
+                      child: Text(
+                        "otaviomiguel.com",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 10.0),
+                      ),
+                      onPressed: _launchURL,
+                    )
                   ],
                 ),
               );
