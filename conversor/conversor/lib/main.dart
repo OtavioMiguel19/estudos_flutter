@@ -10,6 +10,7 @@ const requestUrl = "https://api.hgbrasil.com/finance";
 void main() => runApp(MaterialApp(
       home: Home(),
       theme: ThemeData(hintColor: Colors.black, primaryColor: Colors.black),
+      debugShowCheckedModeBanner: false,
     ));
 
 Future<Map> getData() async {
@@ -31,22 +32,39 @@ class _HomeState extends State<Home> {
   final euroController = TextEditingController();
 
   void _realChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+    }
+
     double real = double.parse(text);
     dollarController.text = (real / dolar).toStringAsFixed(2);
     euroController.text = (real / euro).toStringAsFixed(2);
   }
 
   void _dollarChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+    }
+
     double dolar = double.parse(text);
     realController.text = (dolar * this.dolar).toStringAsFixed(2);
     euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);
   }
 
   void _euroChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+    }
+
     double euro = double.parse(text);
     realController.text = (euro * this.euro).toStringAsFixed(2);
     dollarController.text = (euro * this.euro / dolar).toStringAsFixed(2);
+  }
+
+  void _clearAll() {
+    realController.text = "";
+    dollarController.text = "";
+    euroController.text = "";
   }
 
   @override
@@ -68,7 +86,7 @@ class _HomeState extends State<Home> {
             case ConnectionState.none:
             case ConnectionState.waiting:
               return Center(
-                child: Text("Carregando dados"),
+                child: CircularProgressIndicator(backgroundColor: Colors.black, valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
               );
             default:
               dolar = snapshot.data["results"]["currencies"]["USD"]["buy"];
@@ -88,14 +106,19 @@ class _HomeState extends State<Home> {
                         "Reais", "R\$ ", realController, _realChanged),
                     Divider(),
                     buildTextField(
-                        "Dolares", "\$ ", dollarController, _dollarChanged),
+                        "Dólares", "\$ ", dollarController, _dollarChanged),
                     Divider(),
                     buildTextField("Euros", "€ ", euroController, _euroChanged),
                     Padding(
                       padding: EdgeInsets.only(top: 150.0),
-                      child: Text("Made with", textAlign: TextAlign.center,),
+                      child: Text(
+                        "Made with",
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    FlutterLogo(size: 50.0,)
+                    FlutterLogo(
+                      size: 50.0,
+                    )
                   ],
                 ),
               );
@@ -106,5 +129,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
