@@ -66,7 +66,8 @@ class _HomeState extends State<Home> {
   void _sortList() {
     setState(() {
       _toDoList.sort((a, b) {
-        if (a["ok"] && !b["ok"]) return 1;
+        if (a["ok"] && !b["ok"])
+          return 1;
         else if (!a["ok"] && b["ok"]) return -1;
         return 0;
       });
