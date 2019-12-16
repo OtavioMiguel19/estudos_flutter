@@ -35,11 +35,32 @@ Future<List<String>> getCurrentData() async {
       "http://dataservice.accuweather.com/currentconditions/v1/44944?apikey=AAzGRlIPtEDrO6LKL9fGnHl7G8MnsKYw&language=pt-br&details=false";
   http.Response response = await http.get(url);
   List<String> values = [];
-  values.add(json
-      .decode(response.body)[0]["Temperature"]["Metric"]["Value"]
-      .toStringAsPrecision(2));
-  values.add(json.decode(response.body)[0]["WeatherText"]);
+  if (!response.body.isEmpty) {
+    values.add(json
+        .decode(response.body)[0]["Temperature"]["Metric"]["Value"]
+        .toStringAsPrecision(2));
+    values.add(json.decode(response.body)[0]["WeatherText"]);
+  }
   return values;
+}
+
+String getDayOfWeek(int day) {
+  if (day == 1) {
+    return "Dom";
+  } else if (day == 2) {
+    return "Seg";
+  } else if (day == 3) {
+    return "Ter";
+  } else if (day == 4) {
+    return "Qua";
+  } else if (day == 5) {
+    return "Qui";
+  } else if (day == 6) {
+    return "Sex";
+  } else if (day == 7) {
+    return "Sab";
+  }
+  return "";
 }
 
 class _HomeState extends State<Home> {
@@ -51,7 +72,7 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 10.0),
-                child: Text("Curitiba - PR"),
+                child: Text("Curitiba"),
               ),
               Text(
                 "Atualizado",
@@ -59,14 +80,15 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
-          backgroundColor: Colors.lightBlue,
+            backgroundColor: Colors.lightBlue,
           centerTitle: true,
           elevation: 0.0,
         ),
-        backgroundColor: Colors.lightBlue,
+          backgroundColor: Colors.lightBlue,
         body: FutureBuilder<List<String>>(
           future: getCurrentData(),
           builder: (context, snapshot1) {
+
             switch (snapshot1.connectionState) {
               case ConnectionState.waiting:
               case ConnectionState.none:
@@ -74,12 +96,25 @@ class _HomeState extends State<Home> {
                   child: CircularProgressIndicator(),
                 );
               default:
-                final _current = snapshot1.data[0];
-                final _current_text = snapshot1.data[1];
+                var _current = "";
+                var _current_text = "";
+                if (snapshot1.data != null && snapshot1.data.isNotEmpty) {
+                  _current = snapshot1.data[0];
+                  _current_text = snapshot1.data[1];
+                }
 
                 return FutureBuilder<Map>(
                   future: getData(),
                   builder: (context, snapshot) {
+                    if (snapshot.error != null) {
+                      return Padding(
+                        child: Center(
+                          child: Text("Erro de conexão. Verifique sua rede e tente novamente"),
+                        ),
+                        padding: EdgeInsets.all(20.0),
+                      );
+                    }
+
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                       case ConnectionState.none:
@@ -87,30 +122,44 @@ class _HomeState extends State<Home> {
                           child: CircularProgressIndicator(),
                         );
                       default:
-                        final _today_max = snapshot.data["DailyForecasts"][0]
-                                ["Temperature"]["Maximum"]["Value"]
-                            .toStringAsPrecision(2);
-                        final _today_min = snapshot.data["DailyForecasts"][0]
-                                ["Temperature"]["Minimum"]["Value"]
-                            .toStringAsPrecision(2);
-                        final _today_state = snapshot.data["DailyForecasts"][0]
-                            ["Day"]["ShortPhrase"];
-                        final _tomorrow_max = snapshot.data["DailyForecasts"][1]
-                                ["Temperature"]["Maximum"]["Value"]
-                            .toStringAsPrecision(2);
-                        final _tomorrow_min = snapshot.data["DailyForecasts"][1]
-                                ["Temperature"]["Minimum"]["Value"]
-                            .toStringAsPrecision(2);
-                        final _tomorrow_state = snapshot.data["DailyForecasts"]
-                            [1]["Day"]["ShortPhrase"];
-                        final _day2_max = snapshot.data["DailyForecasts"][2]
-                                ["Temperature"]["Maximum"]["Value"]
-                            .toStringAsPrecision(2);
-                        final _day2_min = snapshot.data["DailyForecasts"][2]
-                                ["Temperature"]["Minimum"]["Value"]
-                            .toStringAsPrecision(2);
-                        final _day2_state = snapshot.data["DailyForecasts"][2]
-                            ["Day"]["ShortPhrase"];
+                        var _today_max = "";
+                        var _today_min = "";
+                        var _today_state = "";
+                        var _tomorrow_max = "";
+                        var _tomorrow_min = "";
+                        var _tomorrow_state = "";
+                        var _day2_max = "";
+                        var _day2_min = "";
+                        var _day2_state = "";
+
+                        if (snapshot.data != null) {
+                          _today_max = snapshot.data["DailyForecasts"][0]
+                          ["Temperature"]["Maximum"]["Value"]
+                              .toStringAsPrecision(2);
+                          _today_min = snapshot.data["DailyForecasts"][0]
+                          ["Temperature"]["Minimum"]["Value"]
+                              .toStringAsPrecision(2);
+                          _today_state = snapshot.data["DailyForecasts"][0]
+                          ["Day"]["ShortPhrase"];
+                          _tomorrow_max = snapshot.data["DailyForecasts"][1]
+                          ["Temperature"]["Maximum"]["Value"]
+                              .toStringAsPrecision(2);
+                          _tomorrow_min = snapshot.data["DailyForecasts"][1]
+                          ["Temperature"]["Minimum"]["Value"]
+                              .toStringAsPrecision(2);
+                          _tomorrow_state = snapshot.data["DailyForecasts"]
+                          [1]["Day"]["ShortPhrase"];
+                          _day2_max = snapshot.data["DailyForecasts"][2]
+                          ["Temperature"]["Maximum"]["Value"]
+                              .toStringAsPrecision(2);
+                          _day2_min = snapshot.data["DailyForecasts"][2]
+                          ["Temperature"]["Minimum"]["Value"]
+                              .toStringAsPrecision(2);
+                          _day2_state = snapshot.data["DailyForecasts"][2]
+                          ["Day"]["ShortPhrase"];
+                        }
+
+                        var twodaysfromnow = DateTime.now().add(Duration(days: 3)).weekday;
 
                         return SingleChildScrollView(
                           child: Column(
@@ -120,11 +169,11 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             _current,
@@ -156,7 +205,7 @@ class _HomeState extends State<Home> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        MainAxisAlignment.end,
                                         children: <Widget>[
                                           Text(
                                             "Mais detalhes >",
@@ -172,7 +221,7 @@ class _HomeState extends State<Home> {
                                         elevation: 0.0,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(15.0)),
+                                            BorderRadius.circular(15.0)),
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
@@ -188,10 +237,10 @@ class _HomeState extends State<Home> {
                                                         "Hoje - $_today_state",
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.white),
+                                                            Colors.white),
                                                       ),
                                                       padding:
-                                                          EdgeInsets.all(15.0),
+                                                      EdgeInsets.all(15.0),
                                                     ),
                                                   ),
                                                   Text(
@@ -216,10 +265,10 @@ class _HomeState extends State<Home> {
                                                         "Amanhã - $_tomorrow_state",
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.white),
+                                                            Colors.white),
                                                       ),
                                                       padding:
-                                                          EdgeInsets.all(15.0),
+                                                      EdgeInsets.all(15.0),
                                                     ),
                                                   ),
                                                   Text(
@@ -241,13 +290,13 @@ class _HomeState extends State<Home> {
                                                   Expanded(
                                                     child: Padding(
                                                       child: Text(
-                                                        "Sáb - $_day2_state",
+                                                        getDayOfWeek(twodaysfromnow) + " - $_day2_state",
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.white),
+                                                            Colors.white),
                                                       ),
                                                       padding:
-                                                          EdgeInsets.all(15.0),
+                                                      EdgeInsets.all(15.0),
                                                     ),
                                                   ),
                                                   Text(
@@ -262,7 +311,7 @@ class _HomeState extends State<Home> {
                                             Padding(
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
                                                     "Previsão para 5 dias",
@@ -274,7 +323,7 @@ class _HomeState extends State<Home> {
                                                 ],
                                               ),
                                               padding:
-                                                  EdgeInsets.only(bottom: 15.0),
+                                              EdgeInsets.only(bottom: 15.0),
                                             )
                                           ],
                                         ),
