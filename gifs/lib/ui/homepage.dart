@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:gifs/random/colors.dart';
+import 'gif_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -141,6 +142,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"][index]["title"], snapshot.data["data"][index]["images"]["fixed_height"]["url"])));
+              },
             );
           } else {
             return Container(
