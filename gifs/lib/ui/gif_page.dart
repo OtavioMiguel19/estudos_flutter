@@ -1,13 +1,7 @@
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:share/share.dart';
 
 class GifPage extends StatelessWidget {
-
   String title;
   String url;
 
@@ -31,16 +25,19 @@ class GifPage extends StatelessWidget {
       ),
       backgroundColor: Colors.black,
       body: Center(
-        child: Image.network(url),
+        child: Image.network(
+          url,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 
   Future<void> share(String url) async {
-    var request = await HttpClient().getUrl(Uri.parse(url));
-    var response = await request.close();
-    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-    await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+//    var request = await HttpClient().getUrl(Uri.parse(url));
+//    var response = await request.close();
+//    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+//    await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+    Share.share(url);
   }
-
 }

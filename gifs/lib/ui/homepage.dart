@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gifs/random/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 
 import 'gif_page.dart';
 
@@ -73,7 +74,6 @@ class _HomePageState extends State<HomePage> {
                   _search = text;
                 });
               },
-
             ),
           ),
           Expanded(
@@ -110,6 +110,14 @@ class _HomePageState extends State<HomePage> {
     } else {
       return data.length + 1;
     }
+  }
+
+  Future<void> share(String url) async {
+//    var request = await HttpClient().getUrl(Uri.parse(url));
+//    var response = await request.close();
+//    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+//    await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+    Share.share(url);
   }
 
   Widget _createGifTable(BuildContext context, AsyncSnapshot snapshot) {
@@ -151,6 +159,10 @@ class _HomePageState extends State<HomePage> {
                             snapshot.data["data"][index]["title"],
                             snapshot.data["data"][index]["images"]
                                 ["fixed_height"]["url"])));
+              },
+              onLongPress: () {
+                share(snapshot.data["data"][index]["images"]["fixed_height"]
+                    ["url"]);
               },
             );
           } else {
