@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "437700023960",
+    "firebase_url": "https://cec-flutter-pushtest.firebaseio.com",
+    "project_id": "cec-flutter-pushtest",
+    "storage_bucket": "cec-flutter-pushtest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437700023960:android:366c67cd927df32205a2ed",
+        "android_client_info": {
+          "package_name": "com.otaviomiguel.apps.cec_sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437700023960-cutigun11ppd6pidffevdhorpahnfeho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTfLGhOzy-8EUqJxl0KmhKQtZ-Xox3zSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437700023960-cutigun11ppd6pidffevdhorpahnfeho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437700023960:android:6bf4d9498955314405a2ed",
+        "android_client_info": {
+          "package_name": "com.otaviomiguel.apps.cec_test_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437700023960-cutigun11ppd6pidffevdhorpahnfeho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTfLGhOzy-8EUqJxl0KmhKQtZ-Xox3zSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437700023960-cutigun11ppd6pidffevdhorpahnfeho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437700023960:android:41e352782d7cebba05a2ed",
+        "android_client_info": {
+          "package_name": "com.otaviomiguel.apps.new_flutter_app_cec_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437700023960-cutigun11ppd6pidffevdhorpahnfeho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTfLGhOzy-8EUqJxl0KmhKQtZ-Xox3zSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437700023960-cutigun11ppd6pidffevdhorpahnfeho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
