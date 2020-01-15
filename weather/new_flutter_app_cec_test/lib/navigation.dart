@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_flutter_app_cec_test/login.dart';
 import 'package:new_flutter_app_cec_test/page.dart';
+import 'package:url_launcher/url_launcher.dart' as LAUNCHER;
 
 import 'consts.dart';
 
@@ -21,14 +22,13 @@ class _NavDrawerState extends State<NavDrawer> {
               children: <Widget>[
                 Center(
                   child: Container(
-                    child: Image.network(
-                        "https://www.televendasecobranca.com.br/wp-content/uploads/2017/09/CEC-casa-e-construcao-adota-conceito-multicanalidade-integrado-de-vendas-televendas-cobranca.jpg"),
+                    child: Image.network(CecStrings.logo),
                   ),
                 ),
                 Center(
                   child: Container(
                     padding: EdgeInsets.only(top: 100.0),
-                    child: Text("Teste de aplicativo C&C"),
+                    child: Text(""),
                   ),
                 ),
               ],
@@ -152,6 +152,53 @@ class _NavDrawerState extends State<NavDrawer> {
                           "Nossas lojas")));
             },
           ),
+          Divider(),
+          //====================================================================
+          // Contatos
+          //====================================================================
+          ListTile(
+            title: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.phone,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 12.0),
+                  child: Text(
+                    'Televendas',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )
+              ],
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              LAUNCHER.launch("tel:1140010100");
+            },
+          ),
+          ListTile(
+            title: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.phone,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 12.0),
+                  child: Text(
+                    'SAC',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )
+              ],
+            ),
+            onTap: () async {
+              Navigator.pop(context);
+              await LAUNCHER.launch("tel:1140010100");
+            },
+          ),
+
         ],
       ),
     );

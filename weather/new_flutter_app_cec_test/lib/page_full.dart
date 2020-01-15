@@ -17,6 +17,7 @@ class OpenPageFull extends StatefulWidget {
 class _OpenPageFullState extends State<OpenPageFull> {
   String url;
   String title;
+  String oldtitle;
   WebViewController webcontroller;
 
   _OpenPageFullState(this.url, this.title);
@@ -26,7 +27,7 @@ class _OpenPageFullState extends State<OpenPageFull> {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title, style: TextStyle(fontFamily: CecFonts.Montserrat_Bold)),
         centerTitle: true,
         backgroundColor: CecColor.orange,
         actions: <Widget>[
@@ -53,6 +54,17 @@ class _OpenPageFullState extends State<OpenPageFull> {
       body: WebView(
         initialUrl: url,
         javascriptMode: JavascriptMode.unrestricted,
+        onPageStarted: (value) {
+          setState(() {
+            oldtitle = title;
+            title = "Carregando";
+          });
+        },
+        onPageFinished: (value) {
+          setState(() {
+            title = oldtitle;
+          });
+        },
         onWebViewCreated: (WebViewController controller) {
           webcontroller = controller;
         },

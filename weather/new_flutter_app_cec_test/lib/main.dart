@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_flutter_app_cec_test/consts.dart';
 
 import 'messaging_widget.dart';
 
@@ -12,8 +13,9 @@ class MyApp extends StatelessWidget {
       title: 'C&C',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: CecFonts.GoogleSans_Regular
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Teste de aplicativo C&C'),
     );
   }
 }

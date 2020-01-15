@@ -99,6 +99,7 @@ class _MessagingWidgetState extends State<MessagingWidget> {
             content: Text(notification['alertDialogContent']),
             actions: <Widget>[
               OutlineButton(
+                borderSide: BorderSide(color: CecColor.orange, width: 2.0),
                 textColor: CecColor.orange,
                 child: Text("Fechar"),
                 onPressed: () {

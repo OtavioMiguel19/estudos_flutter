@@ -7,6 +7,7 @@ class OpenPage extends StatelessWidget {
 
   String url;
   String title;
+  String oldtitle;
   WebViewController webcontroller;
 
   OpenPage(this.url, this.title);
@@ -15,7 +16,7 @@ class OpenPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title, style: TextStyle(fontFamily: CecFonts.Montserrat_Bold)),
         centerTitle: true,
         backgroundColor: CecColor.orange,
       ),
